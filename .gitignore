@@ -1,0 +1,33 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Conda environment files
+*.lock
+*.yml
+
+# VSCode settings (optional)
+.vscode/
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# Local SQLite database
+data/logs.db
+
+# Qdrant storage (vector data)
+data/qdrant_storage/
+
+# LlamaIndex storage (index files)
+storage/
+
+# Web cache / search logs
+.cache/
