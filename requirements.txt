@@ -1,0 +1,8 @@
+langchain
+langgraph
+llama-index
+qdrant-client
+openai
+sqlalchemy
+tavily-python
+python-dotenv
