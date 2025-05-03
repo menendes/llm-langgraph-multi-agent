@@ -1,6 +1,9 @@
 langchain
+langchain-community
 langgraph
 llama-index
+llama-index-vector-stores-qdrant
+llama-index-embeddings-huggingface
 qdrant-client
 openai
 sqlalchemy

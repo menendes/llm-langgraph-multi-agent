@@ -1,4 +1,3 @@
-from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 from langchain.chat_models import ChatOpenAI
 from langchain.agents import create_sql_agent
