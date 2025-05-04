@@ -1,1 +1,0 @@
-# Tool to load data into Qdrant

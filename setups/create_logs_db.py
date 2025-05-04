@@ -19,19 +19,30 @@ CREATE TABLE logs (
     timestamp TEXT,
     ip_address TEXT,
     event_type TEXT,
-    success BOOLEAN
+    success BOOLEAN,
+    username TEXT,
+    source TEXT
 )
 """)
 
-# Insert sample log entries
+# Insert sample log
 sample_logs = [
-    ("2025-04-01T10:12:00", "192.168.1.10", "login", 0),
-    ("2025-04-01T10:15:00", "192.168.1.11", "login", 1),
-    ("2025-04-01T10:20:00", "203.0.113.50", "login", 0),
-    ("2025-04-02T09:00:00", "198.51.100.25", "password_reset", 1),
+    ("2025-04-01T10:12:00", "192.168.1.10", "login", 0, "alice", "auth"),
+    ("2025-04-01T10:15:00", "192.168.1.11", "login", 1, "bob", "auth"),
+    ("2025-04-01T10:20:00", "203.0.113.50", "login", 0, "charlie", "vpn"),
+    ("2025-04-02T09:00:00", "198.51.100.25", "password_reset", 1, "diana", "web"),
+    ("2025-05-01T08:00:00", "203.0.113.99", "login", 0, "alice", "auth"),
+    ("2025-05-01T08:02:00", "203.0.113.99", "login", 0, "alice", "auth"),
+    ("2025-05-01T08:05:00", "203.0.113.99", "login", 0, "alice", "auth"),
+    ("2025-05-01T08:10:00", "203.0.113.99", "login", 0, "alice", "auth"),
+    ("2025-05-01T08:12:00", "203.0.113.99", "login", 0, "alice", "auth"),
+    ("2025-05-01T08:14:00", "203.0.113.99", "login", 0, "alice", "auth"),
 ]
 
-cursor.executemany("INSERT INTO logs (timestamp, ip_address, event_type, success) VALUES (?, ?, ?, ?)", sample_logs)
+cursor.executemany("""
+    INSERT INTO logs (timestamp, ip_address, event_type, success, username, source)
+    VALUES (?, ?, ?, ?, ?, ?)
+""", sample_logs)
 
 # Commit and close
 conn.commit()
