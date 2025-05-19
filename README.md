@@ -26,7 +26,6 @@ stream → main.py  ──► LangGraph supervisor (GPT‑4)
                 plain‑English summary
 ```
 
-
 ## Quick‑start
 
 ```bash
@@ -37,14 +36,14 @@ pip install -r requirements.txt
 export OPENAI_API_KEY="<your key>"   # OpenAPI
 export ABUSE_IP_DB_KEY="<your key>"  # AbuseIPDB
 export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/..."  # Slack
-python llm_threat/main.py
+python main.py
 ```
 
 ## Customising
 
 * **Rules** – edit `tools/event_analysis.py` RULES list.
 * **DB seed** – modify `_DUMMY` rows in `tools/sql_lookup.py`.
-* **Thresholds** – tweak the `SYSTEM_PROMPT` in `driver.py`.
+* **Thresholds** – tweak the `SYSTEM_PROMPT` in `main.py`.
 * **Additional tools** – just drop a new callable in `llm_threat/tools/` and add it to `TOOLS`.
 
 ## Limitations
