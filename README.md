@@ -1,4 +1,4 @@
-# Multi‑Agent LLM Threat‑Detection PoC
+# Multi‑Agent LLM Cyber Threat‑Detection
 
 A minimal yet extensible proof‑of‑concept that shows how a **LangGraph + LLM‑supervised tool‑calling** workflow can detect potential cyber threats from streamed log events.
 
