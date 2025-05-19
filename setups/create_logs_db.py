@@ -5,47 +5,39 @@ import os
 db_path = os.path.join(os.path.dirname(__file__), "../data/logs.db")
 os.makedirs(os.path.dirname(db_path), exist_ok=True)
 
-# Connect to SQLite database (creates it if not exists)
-conn = sqlite3.connect(db_path)
-cursor = conn.cursor()
-
-# Drop existing table (if re-running script)
-cursor.execute("DROP TABLE IF EXISTS logs")
-
-# Create table
-cursor.execute("""
-CREATE TABLE logs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+_SCHEMA = """
+CREATE TABLE IF NOT EXISTS logins (
+    id INTEGER PRIMARY KEY,
     timestamp TEXT,
-    ip_address TEXT,
-    event_type TEXT,
-    success BOOLEAN,
+    ip TEXT,
     username TEXT,
-    source TEXT
-)
-""")
+    result TEXT,
+    auth_method TEXT,
+    device TEXT,
+    country TEXT,
+    mfa_required INTEGER
+);
+"""
 
-# Insert sample log
-sample_logs = [
-    ("2025-04-01T10:12:00", "192.168.1.10", "login", 0, "alice", "auth"),
-    ("2025-04-01T10:15:00", "192.168.1.11", "login", 1, "bob", "auth"),
-    ("2025-04-01T10:20:00", "203.0.113.50", "login", 0, "charlie", "vpn"),
-    ("2025-04-02T09:00:00", "198.51.100.25", "password_reset", 1, "diana", "web"),
-    ("2025-05-01T08:00:00", "203.0.113.99", "login", 0, "alice", "auth"),
-    ("2025-05-01T08:02:00", "203.0.113.99", "login", 0, "alice", "auth"),
-    ("2025-05-01T08:05:00", "203.0.113.99", "login", 0, "alice", "auth"),
-    ("2025-05-01T08:10:00", "203.0.113.99", "login", 0, "alice", "auth"),
-    ("2025-05-01T08:12:00", "203.0.113.99", "login", 0, "alice", "auth"),
-    ("2025-05-01T08:14:00", "203.0.113.99", "login", 0, "alice", "auth"),
+_DUMMY = [
+    ("2025-05-18T11:55:00Z", "203.0.113.45", "alice", "failure", "password", "chrome-win", "US", 1),
+    ("2025-05-18T11:56:10Z", "203.0.113.45", "alice", "failure", "password", "chrome-win", "US", 1),
+    ("2025-05-18T11:57:22Z", "203.0.113.45", "alice", "success", "password", "chrome-win", "US", 1),
+    ("2025-05-18T12:03:41Z", "198.51.100.77", "bob",   "failure", "totp",     "ff-linux",  "GB", 1),
+    ("2025-05-18T12:05:05Z", "198.51.100.77", "bob",   "failure", "totp",     "ff-linux",  "GB", 1),
+    ("2025-05-18T12:07:30Z", "198.51.100.77", "bob",   "success", "oauth",    "edge-win",  "GB", 0),
 ]
 
-cursor.executemany("""
-    INSERT INTO logs (timestamp, ip_address, event_type, success, username, source)
-    VALUES (?, ?, ?, ?, ?, ?)
-""", sample_logs)
+def _init_db():
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.executescript(_SCHEMA)
+    cur.executemany(
+        "INSERT OR IGNORE INTO logins(timestamp,ip,username,result,auth_method,device,country,mfa_required) VALUES (?,?,?,?,?,?,?,?)",
+        _DUMMY,
+    )
+    conn.commit(); conn.close()
 
-# Commit and close
-conn.commit()
-conn.close()
+_init_db()
 
 print("✅ logs.db created and populated!")
