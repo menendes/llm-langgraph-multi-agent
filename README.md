@@ -32,7 +32,6 @@ stream → main.py  ──► LangGraph supervisor (GPT‑4)
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# environment (optional but recommended)
 export OPENAI_API_KEY="<your key>"   # OpenAPI
 export ABUSE_IP_DB_KEY="<your key>"  # AbuseIPDB
 export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/..."  # Slack
@@ -44,7 +43,7 @@ python main.py
 * **Rules** – edit `tools/event_analysis.py` RULES list.
 * **DB seed** – modify `_DUMMY` rows in `tools/sql_lookup.py`.
 * **Thresholds** – tweak the `SYSTEM_PROMPT` in `main.py`.
-* **Additional tools** – just drop a new callable in `llm_threat/tools/` and add it to `TOOLS`.
+* **Additional tools** – just drop a new callable in `tools/` and add it to `TOOLS`.
 
 ## Limitations
 
